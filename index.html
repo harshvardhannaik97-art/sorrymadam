@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Sorry, Bestie 💖</title>
+    <style>
+        :root {
+            --bg: #fff6fb;
+            --card: #fff;
+            --accent: #ff6b9a;
+            --accent-2: #ffb3d1;
+            --text: #4b2a3b;
+            --muted: #8a6a79;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, 'Helvetica Neue', Arial;
+            background: linear-gradient(180deg, #fff6fb 0%, #fff 100%);
+            color: var(--text)
+        }
+
+        .wrap {
+            min-height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px
+        }
+
+        .card {
+            width: 100%;
+            max-width: 820px;
+            background: var(--card);
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(97, 49, 73, 0.12);
+            padding: 34px;
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 20px;
+            align-items: center
+        }
+
+        .left {
+            padding: 8px
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 28px;
+            letter-spacing: -0.3px
+        }
+
+        p.lead {
+            margin: 0 0 18px;
+            color: var(--muted)
+        }
+
+        .message {
+            background: linear-gradient(90deg, rgba(255, 107, 154, 0.08), rgba(255, 179, 209, 0.06));
+            border: 1px dashed rgba(255, 107, 154, 0.18);
+            padding: 18px;
+            border-radius: 12px;
+            min-height: 140px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden
+        }
+
+        .message .text {
+            font-size: 18px;
+            line-height: 1.45;
+            color: var(--text);
+            padding: 6px 12px;
+            text-align: center
+        }
+
+        .controls {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap
+        }
+
+        button {
+            cursor: pointer;
+            padding: 10px 14px;
+            border-radius: 12px;
+            border: 0;
+            font-weight: 600
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent), var(--accent-2));
+            color: white;
+            box-shadow: 0 6px 16px rgba(255, 107, 154, 0.22)
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid rgba(75, 42, 59, 0.06);
+            color: var(--text)
+        }
+
+        /* right column */
+        .right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            text-align: center
+        }
+
+        .heart {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 25%, #fff, rgba(255, 255, 255, 0)), display:block;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .heart svg {
+            width: 160px;
+            height: 160px;
+            filter: drop-shadow(0 8px 18px rgba(255, 107, 154, 0.18))
+        }
+
+        .hint {
+            font-size: 14px;
+            color: var(--muted)
+        }
+
+        footer {
+            grid-column: 1/-1;
+            margin-top: 12px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px
+        }
+
+        /* small screen */
+        @media (max-width:820px) {
+            .card {
+                grid-template-columns: 1fr;
+            }
+
+            .right {
+                order: -1
+            }
+        }
+
+        /* typewriter caret */
+        .caret {
+            border-right: 2px solid rgba(75, 42, 59, 0.8);
+            animation: blink 1s steps(1) infinite
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent
+            }
+        }
+
+        /* floating hearts */
+        .floating-heart {
+            position: absolute;
+            pointer-events: none;
+            will-change: transform, opacity
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card" role="main" aria-labelledby="title">
+            <div class="left">
+                <h1 id="title">Hey Bestie... I messed up 💌</h1>
+                <p class="lead">Use the buttons to send a cute apology message. You can edit the message text below — it
+                    types itself for dramatic effect.</p>
+
+                <div class="message" id="message">
+                    <div class="text" id="text">Press <strong>Reveal Message</strong> to see your special apology.</div>
+                </div>
+
+                <div class="controls">
+                    <button class="btn-primary" id="reveal">Reveal Message</button>
+                    <button class="btn-ghost" id="reset">Reset</button>
+                    <button class="btn-ghost" id="custom">Edit Message</button>
+                    <button class="btn-ghost" id="send">Send (Copy)</button>
+                </div>
+
+            </div>
+
+            <div class="right">
+                <div class="heart" aria-hidden="true">
+                    <!-- cute heart SVG -->
+                    <svg viewBox="0 0 32 29" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path
+                            d="M23.6 0c-2.7 0-4.8 1.6-6 3.3C16.2 1.6 14.1 0 11.4 0 5.1 0 .5 4.7.5 10c0 6.1 6.6 10.8 16 18.6 9.4-7.8 16-12.5 16-18.6C32.5 4.7 27.9 0 23.6 0z"
+                            fill="url(#g)" />
+                        <defs>
+                            <linearGradient id="g" x1="0" x2="1">
+                                <stop offset="0%" stop-color="#ff9bbd" />
+                                <stop offset="100%" stop-color="#ff5b8a" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="hint">Tip: click <strong>Send (Copy)</strong> to copy the message and paste it in DM or
+                    text.</div>
+                <div style="font-size:12px;color:var(--muted)">Made with lots of apologies 💕</div>
+            </div>
+
+            <footer>Want a different message or colors? Click <em>Edit Message</em> or tell me what you'd like changed.
+            </footer>
+        </div>
+    </div>
+
+    <canvas id="confetti" style="position:fixed;left:0;top:0;pointer-events:none;z-index:9999;display:block"></canvas>
+
+    <script>
+        // Default cute apology messages (you can edit these by clicking Edit Message)
+        const messages = [
+            "Hey bestie — I'm really sorry. I didn't mean to hurt you. Can we hug it out and start fresh? 💖",
+            "I messed up and I'm sorry. You mean the world to me. Please forgive my silly mistake. 🌸",
+            "To my dearest bestie — sorry from the bottom of my heart. I promise to do better. 💕",
+        ];
+
+        let chosen = messages[0];
+
+        const textEl = document.getElementById('text');
+        const revealBtn = document.getElementById('reveal');
+        const resetBtn = document.getElementById('reset');
+        const customBtn = document.getElementById('custom');
+        const sendBtn = document.getElementById('send');
+
+        function typeText(str, speed = 30) {
+            textEl.innerHTML = '';
+            const span = document.createElement('span');
+            span.className = 'typed';
+            textEl.appendChild(span);
+            let i = 0;
+            const caret = document.createElement('span'); caret.className = 'caret';
+            span.appendChild(caret);
+
+            const interval = setInterval(() => {
+                if (i >= str.length) {
+                    caret.remove();
+                    clearInterval(interval);
+                    launchConfetti();
+                    playChime();
+                    return;
+                }
+                // insert char before caret
+                caret.insertAdjacentText('beforebegin', str[i]);
+                i++;
+            }, speed);
+        }
+
+        revealBtn.addEventListener('click', () => {
+            chosen = chosen || messages[0];
+            typeText(chosen, 28);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            chosen = messages[0];
+            textEl.textContent = 'Press Reveal Message to see your special apology.';
+        });
+
+        customBtn.addEventListener('click', () => {
+            const txt = prompt('Edit the apology message — make it your own:', chosen);
+            if (txt !== null) {
+                chosen = txt.trim() || messages[0];
+                textEl.textContent = 'Custom message saved. Click Reveal Message to show it.';
+            }
+        });
+
+        sendBtn.addEventListener('click', async () => {
+            // copy current shown text (or the chosen message if not typed yet)
+            let toCopy = '';
+            const typed = document.querySelector('.typed');
+            if (typed) toCopy = typed.textContent;
+            if (!toCopy) toCopy = chosen;
+            try {
+                await navigator.clipboard.writeText(toCopy);
+                sendBtn.textContent = 'Copied ✅';
+                setTimeout(() => sendBtn.textContent = 'Send (Copy)', 1800);
+            } catch (e) {
+                alert('Could not copy automatically — select the message and press Ctrl+C to copy.');
+            }
+        });
+
+        // --- Cute confetti ---
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        let W = canvas.width = innerWidth;
+        let H = canvas.height = innerHeight;
+        window.addEventListener('resize', () => { W = canvas.width = innerWidth; H = canvas.height = innerHeight });
+
+        function random(min, max) { return Math.random() * (max - min) + min }
+        function sampleColor() { const cs = ['#ffb3d1', '#ff7aa6', '#ffd1f0', '#fff0f6', '#ffd9e6']; return cs[Math.floor(Math.random() * cs.length)] }
+
+        let confettis = [];
+        function createConfetti() {
+            for (let i = 0; i < 80; i++) {
+                confettis.push({ x: random(0, W), y: random(-H, -10), r: random(6, 12), d: random(10, 30), tilt: random(-10, 10), color: sampleColor(), speed: random(2, 6) })
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, W, H);
+            for (let i = 0; i < confettis.length; i++) {
+                const c = confettis[i];
+                ctx.beginPath();
+                ctx.fillStyle = c.color;
+                ctx.ellipse(c.x, c.y, c.r, c.r * 0.6, c.tilt * 0.05, 0, Math.PI * 2);
+                ctx.fill();
+                c.y += c.speed;
+                c.x += Math.sin(c.d) * 0.7;
+                c.tilt += 0.02;
+                if (c.y > H + 20) confettis.splice(i, 1);
+            }
+            if (confettis.length > 0) requestAnimationFrame(drawConfetti);
+        }
+
+        function launchConfetti() {
+            createConfetti();
+            drawConfetti();
+        }
+
+        // --- small chime using WebAudio ---
+        function playChime() {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const o = ctx.createOscillator();
+                const g = ctx.createGain();
+                o.type = 'sine';
+                o.frequency.setValueAtTime(880, ctx.currentTime);
+                o.connect(g); g.connect(ctx.destination);
+                g.gain.setValueAtTime(0.0001, ctx.currentTime);
+                g.gain.exponentialRampToValueAtTime(0.06, ctx.currentTime + 0.02);
+                o.start();
+                o.frequency.exponentialRampToValueAtTime(660, ctx.currentTime + 0.22);
+                g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 1.2);
+                o.stop(ctx.currentTime + 1.25);
+            } catch (e) {/* audio not available */ }
+        }
+
+        // small floating hearts when reveal clicked
+        function spawnFloatingHeart() {
+            const container = document.getElementById('message');
+            const h = document.createElement('div');
+            h.className = 'floating-heart';
+            h.style.left = (container.clientWidth / 2 + random(-80, 80)) + 'px';
+            h.style.top = (container.clientHeight / 2 + random(-20, 40)) + 'px';
+            h.style.opacity = 1;
+            h.innerHTML = '💖';
+            h.style.fontSize = (random(18, 36)) + 'px';
+            container.appendChild(h);
+            let t = 0;
+            const id = setInterval(() => {
+                t += 16;
+                h.style.transform = `translateY(${-(t / 10)}px) scale(${1 - t / 900})`;
+                h.style.opacity = 1 - t / 900;
+                if (t > 900) { clearInterval(id); h.remove(); }
+            }, 16);
+        }
+
+        // tie spawn hearts to reveal action
+        revealBtn.addEventListener('click', () => {
+            for (let i = 0; i < 8; i++) setTimeout(spawnFloatingHeart, i * 130);
+        });
+
+        // set initial focus
+        revealBtn.focus();
+
+        // Accessibility: allow Enter to trigger reveal when focused
+        revealBtn.addEventListener('keyup', (e) => { if (e.key === 'Enter') revealBtn.click(); });
+
+    </script>
+</body>
+
+</html>
